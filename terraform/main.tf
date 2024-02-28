@@ -7,18 +7,14 @@ terraform {
   }
 
   backend "s3" {
-    bucket     = "nscavezze-terraform-s3-state"
-    key        = "my-terraform-project"
-    region     = "us-west-2"
-    access_key = var.aws_access_key
-    secret_key = var.aws_secret_key
+    bucket = "nscavezze-terraform-s3-state"
+    key    = "my-terraform-project"
+    region = "us-west-2"
   }
 
   required_version = ">= 1.2.0"
 }
 
 provider "aws" {
-  region     = "us-west-2"
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
+  region = "us-west-2"
 }
