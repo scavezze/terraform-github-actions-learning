@@ -28,17 +28,17 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: terraform init -var aws_access_key="${{ secrets.AWS_ACCESS_KEY_ID_TERRAFORM }}" -var aws_secret_key="${{ secrets.AWS_SECRET_ACCESS_KEY_TERRAFORM }}"
         working-directory: ./terraform
 
       - name: Terraform Format
         id: fmt
-        run: terraform fmt -check
+        run: terraform fmt -check -var aws_access_key="${{ secrets.AWS_ACCESS_KEY_ID_TERRAFORM }}" -var aws_secret_key="${{ secrets.AWS_SECRET_ACCESS_KEY_TERRAFORM }}"
         working-directory: ./terraform
 
       - name: Terraform Validate
         id: validate
         # Run even if formatting fails
         if: success() || failure()
-        run: terraform validate -no-color
+        run: terraform validate -no-color -var aws_access_key="${{ secrets.AWS_ACCESS_KEY_ID_TERRAFORM }}" -var aws_secret_key="${{ secrets.AWS_SECRET_ACCESS_KEY_TERRAFORM }}"
         working-directory: ./terraform
