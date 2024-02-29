@@ -21,11 +21,29 @@ provider "aws" {
   secret_key = var.aws_secret_key
 }
 
-resource "aws_s3_bucket" "example" {
-  bucket = "natescavezzes-my-tf-test-bucket"
+provider "aws" {
+  region     = "us-east-1"
+  alias      = "use1"
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
+}
 
-  tags = {
-    Name        = "My bucket"
-    Environment = "Dev"
+locals {
+  mime_types = jsondecode(file("${path.module}/mime.json"))
+  domain     = "www.nscavezze.dns-dynamic.net"
+}
+
+data "aws_iam_policy_document" "s3_website_policy" {
+  statement {
+    actions = [
+      "s3:GetObject"
+    ]
+    principals {
+      identifiers = ["*"]
+      type        = "AWS"
+    }
+    resources = [
+      "arn:aws:s3:::${var.bucket_name}/*"
+    ]
   }
 }
